@@ -1,4 +1,4 @@
-import React, { useContext  } from "react";
+import React, { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { Link } from "react-router";
 import Card from "@mui/material/Card";
@@ -10,13 +10,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import Avatar from '@mui/material/Avatar';
 import img from '../../images/film-poster-placeholder.png';
 
-export default function MovieCard({ movie, action }) { 
+export default function MovieCard({ movie, action }) {
 
   const { favorites, addToFavorites } = useContext(MoviesContext);
 
@@ -31,6 +31,11 @@ export default function MovieCard({ movie, action }) {
     addToFavorites(movie);
   };
 
+  const makePercentage = (number) => {
+  const maxVote = 10
+  const actualVote = number
+  return Math.floor((actualVote / maxVote) * 100);
+  }
 
   return (
     <Card>
@@ -67,22 +72,22 @@ export default function MovieCard({ movie, action }) {
           </Grid>
           <Grid size={{ xs: 6 }}>
             <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+              <ThumbUpIcon fontSize="small" />
+              {"  "} {makePercentage(movie.vote_average)}{"%"}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-      
+
         {action(movie)}
-      
+
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>
         </Link>
-        
+
       </CardActions>
 
     </Card>
